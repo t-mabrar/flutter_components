@@ -1,0 +1,248 @@
+// ignore_for_file: unused_element_parameter
+
+import 'package:flutter/material.dart';
+import 'package:flutter_components/src/core/app_imports.dart';
+import 'package:flutter_components/src/widgets/app_loading.dart';
+
+class AppButton extends StatefulWidget {
+  final String title;
+  final Widget? prefix;
+  final Widget? suffix;
+  final bool _isLinkButton;
+  final bool _isIconButton;
+  final void Function() onPressed;
+  final Icon _icon;
+  final bool? isLoading;
+  final BoxBorder? border;
+  final Color? color;
+  final TextStyle? titleStyle;
+  final Color? fontColor;
+  final EdgeInsets? padding;
+  final double? elevation;
+  final bool isExpanded;
+  final double? borderRadius;
+  final double? fontSize;
+  final bool? _hideUnderLine;
+  final bool isBold;
+
+  const AppButton({
+    super.key,
+    required this.title,
+    required this.onPressed,
+    this.prefix,
+    this.border,
+    this.color,
+    this.suffix,
+    this.isLoading,
+    this.titleStyle,
+    this.fontColor,
+    this.padding,
+    this.elevation,
+    this.isExpanded = false,
+    this.borderRadius,
+    this.fontSize,
+    this.isBold = false,
+  }) : _isLinkButton = false,
+       _isIconButton = false,
+       _hideUnderLine = false,
+       _icon = const Icon(Icons.ac_unit);
+
+  const AppButton._internal({
+    required this.title,
+    required this.onPressed,
+    this.prefix,
+    this.suffix,
+    this.color,
+    this.padding,
+    this.titleStyle,
+    this.fontColor,
+    required Icon icon,
+    required bool isLinkButton,
+    required bool isIconButton,
+    required bool hideUnderLine,
+    this.isLoading,
+    this.isBold = false,
+    this.border,
+    this.elevation,
+    this.isExpanded = false,
+    this.borderRadius,
+    this.fontSize,
+  }) : _isLinkButton = isLinkButton,
+       _isIconButton = isIconButton,
+       _hideUnderLine = hideUnderLine,
+       _icon = icon;
+
+  factory AppButton.link({
+    required String title,
+    required void Function() onPressed,
+    Color? color,
+    Color? fontColor,
+    TextStyle? titleStyle,
+    EdgeInsets? padding,
+    Widget? prefix,
+    Widget? suffix,
+    bool? hideUnderLine,
+    double? fontSize,
+    bool isBold = false,
+  }) {
+    return AppButton._internal(
+      title: title,
+      prefix: prefix,
+      suffix: suffix,
+      fontColor: fontColor,
+      color: color,
+      padding: padding,
+      titleStyle: titleStyle,
+      isBold: isBold,
+      isLinkButton: true,
+      isIconButton: false,
+      fontSize: fontSize,
+      onPressed: onPressed,
+      icon: const Icon(Icons.ac_unit),
+      hideUnderLine: hideUnderLine ?? false,
+    );
+  }
+
+  factory AppButton.icon({
+    required Icon icon,
+    required void Function() onPressed,
+    Widget? prefix,
+    Widget? suffix,
+  }) {
+    return AppButton._internal(
+      title: "",
+      prefix: prefix,
+      suffix: suffix,
+      isLinkButton: false,
+      isIconButton: true,
+      onPressed: onPressed,
+      icon: icon,
+      hideUnderLine: false,
+    );
+  }
+
+  @override
+  State<AppButton> createState() => AppButtonState();
+}
+
+class AppButtonState extends State<AppButton> {
+  Color? _buttonColor;
+  bool _isHovered = false;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        _buttonColor = widget.color ?? context.primaryColor;
+      });
+    });
+    super.initState();
+  }
+
+  void _onHover(bool value) {
+    setState(() {
+      _isHovered = value;
+      _buttonColor =
+          value
+              ? widget.color == null
+                  ? _buttonColor!.withValues(alpha: 0.7)
+                  : Colors.transparent
+              : widget.color ?? context.primaryColor;
+    });
+  }
+
+  Widget _buildButtonContent() {
+    if (widget._isIconButton) {
+      return widget._icon;
+    } else if (widget._isLinkButton) {
+      return Padding(
+        padding: widget.padding ?? EdgeInsets.zero,
+        child: Text(
+          widget.title,
+          style:
+              widget.titleStyle ??
+              context.textTheme.bodyMedium!.copyWith(
+                fontWeight: widget.isBold ? FontWeight.bold : null,
+                color: widget.fontColor ?? context.primaryColor,
+                fontSize: widget.fontSize,
+                decoration:
+                    (widget._hideUnderLine ?? false)
+                        ? null
+                        : TextDecoration.underline,
+                decorationColor: widget.fontColor ?? context.primaryColor,
+              ),
+        ),
+      );
+    } else if (widget.isLoading ?? false) {
+      return const AppLoading();
+    } else {
+      return _buildDefaultButton();
+    }
+  }
+
+  Widget get _textWidget => Text(
+    widget.title,
+    style:
+        widget.titleStyle ??
+        context.textTheme.bodyMedium!.copyWith(
+          fontWeight: widget.isBold ? FontWeight.bold : null,
+          fontSize: widget.fontSize,
+          color: widget.fontColor ?? Colors.white,
+        ),
+  );
+
+  Widget _buildDefaultButton() {
+    return Material(
+      color: Colors.transparent,
+      shadowColor: _buttonColor!.withAlpha(_isHovered ? 125 : 255),
+      elevation: widget.elevation ?? 5.0,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          border: widget.border,
+          color: _buttonColor,
+          borderRadius: BorderRadius.circular(widget.borderRadius ?? 5.0),
+        ),
+        child: Padding(
+          padding:
+              widget.padding ??
+              const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (widget.prefix != null) ...[
+                widget.prefix!,
+                const SizedBox(width: 10.0),
+              ],
+              widget.isExpanded
+                  ? Expanded(child: Center(child: _textWidget))
+                  : _textWidget,
+              if (widget.suffix != null) ...[
+                const SizedBox(width: 10.0),
+                widget.suffix!,
+              ],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final bool isDisabled = widget.isLoading == true;
+    return _buttonColor == null
+        ? SizedBox.shrink()
+        : InkWell(
+          hoverColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          splashColor:
+              isDisabled ? Colors.transparent : _buttonColor!.withAlpha(50),
+          onTap: isDisabled ? null : () => widget.onPressed(),
+          onHover: isDisabled ? null : _onHover,
+          child: Opacity(
+            opacity: isDisabled ? 0.5 : 1.0,
+            child: _buildButtonContent(),
+          ),
+        );
+  }
+}
