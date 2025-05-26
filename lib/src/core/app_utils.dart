@@ -47,13 +47,113 @@ void setPageTitle(String title, {int? colorInt}) {
 }
 
 class AppUtils {
-  // static final double screenWidth =
-  //     MediaQueryData.fromWindow(WidgetsBinding.instance.window)
-  //         .size
-  //         .shortestSide;
-  // static bool isMobile = screenWidth < 480.0;
-  // static bool isTab = screenWidth > 480.0 && screenWidth < 768.0;
-  // static bool isBigScreen = screenWidth > 768.0;
+  bool get kIsMobile =>
+      MediaQueryData.fromView(
+        PlatformDispatcher.instance.implicitView!,
+      ).size.width <
+      480.0;
+  double get screenWidth =>
+      MediaQueryData.fromView(
+        PlatformDispatcher.instance.implicitView!,
+      ).size.shortestSide;
+  bool get kIsTab => screenWidth > 480.0 && screenWidth < 768.0;
+  bool get kIsBigScreen => screenWidth > 768.0;
+
+  static TextTheme textTheme({
+    String? fontFamily,
+    Color defaultColor = Colors.black,
+  }) => TextTheme(
+    displayLarge: TextStyle(
+      fontFamily: fontFamily,
+      fontSize: 64,
+      fontWeight: FontWeight.bold,
+      color: defaultColor,
+    ),
+    displayMedium: TextStyle(
+      fontFamily: fontFamily,
+      fontSize: 52,
+      fontWeight: FontWeight.bold,
+      color: defaultColor,
+    ),
+    displaySmall: TextStyle(
+      fontFamily: fontFamily,
+      fontSize: 44,
+      fontWeight: FontWeight.bold,
+      color: defaultColor,
+    ),
+    headlineLarge: TextStyle(
+      fontFamily: fontFamily,
+      fontSize: 40,
+      fontWeight: FontWeight.w600,
+      color: defaultColor,
+    ),
+    headlineMedium: TextStyle(
+      fontFamily: fontFamily,
+      fontSize: 36,
+      fontWeight: FontWeight.w600,
+      color: defaultColor,
+    ),
+    headlineSmall: TextStyle(
+      fontFamily: fontFamily,
+      fontSize: 32,
+      fontWeight: FontWeight.w500,
+      color: defaultColor,
+    ),
+    titleLarge: TextStyle(
+      fontFamily: fontFamily,
+      fontSize: 28,
+      fontWeight: FontWeight.w600,
+      color: defaultColor,
+    ),
+    titleMedium: TextStyle(
+      fontFamily: fontFamily,
+      fontSize: 24,
+      fontWeight: FontWeight.w500,
+      color: defaultColor,
+    ),
+    titleSmall: TextStyle(
+      fontFamily: fontFamily,
+      fontSize: 20,
+      fontWeight: FontWeight.w500,
+      color: defaultColor,
+    ),
+    bodyLarge: TextStyle(
+      fontFamily: fontFamily,
+      fontSize: 18,
+      fontWeight: FontWeight.normal,
+      color: defaultColor,
+    ),
+    bodyMedium: TextStyle(
+      fontFamily: fontFamily,
+      fontSize: 16,
+      fontWeight: FontWeight.normal,
+      color: defaultColor,
+    ),
+    bodySmall: TextStyle(
+      fontFamily: fontFamily,
+      fontSize: 14,
+      fontWeight: FontWeight.normal,
+      color: defaultColor,
+    ),
+    labelLarge: TextStyle(
+      fontFamily: fontFamily,
+      fontSize: 14,
+      fontWeight: FontWeight.w600,
+      color: defaultColor,
+    ),
+    labelMedium: TextStyle(
+      fontFamily: fontFamily,
+      fontSize: 12,
+      fontWeight: FontWeight.w500,
+      color: defaultColor,
+    ),
+    labelSmall: TextStyle(
+      fontFamily: fontFamily,
+      fontSize: 10,
+      fontWeight: FontWeight.w400,
+      color: defaultColor,
+    ),
+  );
 
   static String apiParsing(String template, Map<String, dynamic> values) {
     values.forEach((key, value) {
