@@ -139,6 +139,14 @@ class AppButtonState extends State<AppButton> {
     super.initState();
   }
 
+  @override
+  void didUpdateWidget(covariant AppButton oldWidget) {
+    if (oldWidget.color != widget.color) {
+      _buttonColor = widget.color ?? context.primaryColor;
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
   void _onHover(bool value) {
     setState(() {
       _isHovered = value;

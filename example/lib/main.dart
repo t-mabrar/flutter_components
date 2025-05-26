@@ -30,12 +30,13 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        AppFormTextField(),
-        AppButton(title: "", onPressed: () {}),
-        SizedBox(width: context.width),
-      ],
+    return Center(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          AppButton(title: "Press", onPressed: () {}, color: Colors.black),
+        ],
+      ),
     );
   }
 }

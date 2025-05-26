@@ -2,11 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-bool get kIsMobile =>
-    MediaQueryData.fromView(
-      PlatformDispatcher.instance.implicitView!,
-    ).size.width <
-    480.0;
+
 
 extension AppContext on BuildContext {
   double get width => MediaQuery.of(this).size.width;
