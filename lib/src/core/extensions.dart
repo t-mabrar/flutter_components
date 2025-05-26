@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-bool get isMobile =>
+bool get kIsMobile =>
     MediaQueryData.fromView(
       PlatformDispatcher.instance.implicitView!,
     ).size.width <
@@ -12,10 +12,6 @@ extension AppContext on BuildContext {
   double get width => MediaQuery.of(this).size.width;
 
   double get height => MediaQuery.of(this).size.height;
-
-  // bool get isMobile {
-  //   return MediaQuery.of(this).size.width < 480.0;
-  // }
 
   bool get isBigScreen => MediaQuery.of(this).size.width > 768.0;
 
@@ -27,15 +23,15 @@ extension AppContext on BuildContext {
 
   Color get primaryColor => Theme.of(this).colorScheme.primary;
 
+  Color get indicatorColor => Theme.of(this).indicatorColor;
+
   Color get secondaryColor => Theme.of(this).colorScheme.secondary;
 }
 
 extension AppStringExtension on String {
-  String get statusTitle =>
-      this.replaceAll("_", "").replaceAll(" ", "").toTitleCase;
+  String get statusTitle => replaceAll("_", "").replaceAll(" ", "").toTitleCase;
 
-  String get toTitleCase => this
-      .toLowerCase()
+  String get toTitleCase => toLowerCase()
       .split(' ')
       .map(
         (word) =>
