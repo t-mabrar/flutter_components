@@ -23,7 +23,7 @@ class AppButton extends StatefulWidget {
   final double? borderRadius;
   final double? fontSize;
   final bool? _hideUnderLine;
-  final bool isBold;
+  final FontWeight fontWeight;
 
   const AppButton({
     super.key,
@@ -41,7 +41,7 @@ class AppButton extends StatefulWidget {
     this.isExpanded = false,
     this.borderRadius,
     this.fontSize,
-    this.isBold = false,
+    this.fontWeight = FontWeight.normal,
   }) : _isLinkButton = false,
        _isIconButton = false,
        _hideUnderLine = false,
@@ -61,7 +61,7 @@ class AppButton extends StatefulWidget {
     required bool isIconButton,
     required bool hideUnderLine,
     this.isLoading,
-    this.isBold = false,
+    this.fontWeight = FontWeight.normal,
     this.border,
     this.elevation,
     this.isExpanded = false,
@@ -83,7 +83,7 @@ class AppButton extends StatefulWidget {
     Widget? suffix,
     bool? hideUnderLine,
     double? fontSize,
-    bool isBold = false,
+    FontWeight fontWeight = FontWeight.normal,
   }) {
     return AppButton._internal(
       title: title,
@@ -93,7 +93,7 @@ class AppButton extends StatefulWidget {
       color: color,
       padding: padding,
       titleStyle: titleStyle,
-      isBold: isBold,
+      fontWeight: fontWeight,
       isLinkButton: true,
       isIconButton: false,
       fontSize: fontSize,
@@ -162,7 +162,7 @@ class AppButtonState extends State<AppButton> {
           style:
               widget.titleStyle ??
               context.textTheme.bodyMedium!.copyWith(
-                fontWeight: widget.isBold ? FontWeight.bold : null,
+                fontWeight: widget.fontWeight,
                 color: widget.fontColor ?? context.primaryColor,
                 fontSize: widget.fontSize,
                 decoration:
@@ -185,7 +185,7 @@ class AppButtonState extends State<AppButton> {
     style:
         widget.titleStyle ??
         context.textTheme.bodyMedium!.copyWith(
-          fontWeight: widget.isBold ? FontWeight.bold : null,
+          fontWeight: widget.fontWeight,
           fontSize: widget.fontSize,
           color: widget.fontColor ?? Colors.white,
         ),
