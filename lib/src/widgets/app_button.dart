@@ -203,7 +203,7 @@ class AppButtonState extends State<AppButton> {
     return Material(
       color: Colors.transparent,
       shadowColor: _buttonColor!.withAlpha(_isHovered ? 125 : 255),
-      elevation: widget.elevation ?? 5.0,
+      elevation: widget.elevation ?? 0.0,
       child: DecoratedBox(
         decoration: BoxDecoration(
           border: widget.border,
