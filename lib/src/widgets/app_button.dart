@@ -24,6 +24,7 @@ class AppButton extends StatefulWidget {
   final double? fontSize;
   final bool? _hideUnderLine;
   final FontWeight fontWeight;
+  final bool isEnabled;
 
   const AppButton({
     super.key,
@@ -42,6 +43,7 @@ class AppButton extends StatefulWidget {
     this.borderRadius,
     this.fontSize,
     this.fontWeight = FontWeight.normal,
+    this.isEnabled = true,
   }) : _isLinkButton = false,
        _isIconButton = false,
        _hideUnderLine = false,
@@ -67,6 +69,7 @@ class AppButton extends StatefulWidget {
     this.isExpanded = false,
     this.borderRadius,
     this.fontSize,
+    this.isEnabled = true,
   }) : _isLinkButton = isLinkButton,
        _isIconButton = isIconButton,
        _hideUnderLine = hideUnderLine,
@@ -84,6 +87,7 @@ class AppButton extends StatefulWidget {
     bool? hideUnderLine,
     double? fontSize,
     FontWeight fontWeight = FontWeight.normal,
+    bool? isEnabled,
   }) {
     return AppButton._internal(
       title: title,
@@ -100,6 +104,7 @@ class AppButton extends StatefulWidget {
       onPressed: onPressed,
       icon: const Icon(Icons.ac_unit),
       hideUnderLine: hideUnderLine ?? false,
+      isEnabled: isEnabled ?? true,
     );
   }
 
@@ -108,6 +113,7 @@ class AppButton extends StatefulWidget {
     required void Function() onPressed,
     Widget? prefix,
     Widget? suffix,
+    bool? isEnabled,
   }) {
     return AppButton._internal(
       title: "",
@@ -118,6 +124,7 @@ class AppButton extends StatefulWidget {
       onPressed: onPressed,
       icon: icon,
       hideUnderLine: false,
+      isEnabled: isEnabled ?? true,
     );
   }
 
@@ -134,6 +141,7 @@ class AppButtonState extends State<AppButton> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {
         _buttonColor = widget.color ?? context.primaryColor;
+        isEnabled = widget.isEnabled && (widget.isLoading ?? true);
       });
     });
     super.initState();
@@ -143,6 +151,9 @@ class AppButtonState extends State<AppButton> {
   void didUpdateWidget(covariant AppButton oldWidget) {
     if (oldWidget.color != widget.color) {
       _buttonColor = widget.color ?? context.primaryColor;
+    }
+    if (widget.isEnabled != oldWidget.isEnabled) {
+      isEnabled = widget.isEnabled && (widget.isLoading ?? true);
     }
     super.didUpdateWidget(oldWidget);
   }
@@ -171,7 +182,10 @@ class AppButtonState extends State<AppButton> {
               widget.titleStyle ??
               context.textTheme.bodyMedium!.copyWith(
                 fontWeight: widget.fontWeight,
-                color: widget.fontColor ?? context.primaryColor,
+                color:
+                    isEnabled
+                        ? (widget.fontColor ?? context.primaryColor)
+                        : Colors.black,
                 fontSize: widget.fontSize,
                 decoration:
                     (widget._hideUnderLine ?? false)
@@ -188,26 +202,32 @@ class AppButtonState extends State<AppButton> {
     }
   }
 
-  Widget get _textWidget => Text(
-    widget.title,
-    style:
-        widget.titleStyle ??
-        context.textTheme.bodyMedium!.copyWith(
-          fontWeight: widget.fontWeight,
-          fontSize: widget.fontSize,
-          color: widget.fontColor ?? Colors.white,
-        ),
-  );
+  Widget get _textWidget {
+    return Text(
+      widget.title,
+      style:
+          widget.titleStyle ??
+          context.textTheme.bodyMedium!.copyWith(
+            fontWeight: widget.fontWeight,
+            fontSize: widget.fontSize,
+            color:
+                isEnabled ? (widget.fontColor ?? Colors.white) : Colors.black,
+          ),
+    );
+  }
 
   Widget _buildDefaultButton() {
     return Material(
       color: Colors.transparent,
-      shadowColor: _buttonColor!.withAlpha(_isHovered ? 125 : 255),
+      shadowColor:
+          isEnabled
+              ? _buttonColor!.withAlpha(_isHovered ? 125 : 255)
+              : Colors.transparent,
       elevation: widget.elevation ?? 0.0,
       child: DecoratedBox(
         decoration: BoxDecoration(
           border: widget.border,
-          color: _buttonColor,
+          color: isEnabled ? _buttonColor : Colors.grey,
           borderRadius: BorderRadius.circular(widget.borderRadius ?? 5.0),
         ),
         child: Padding(
@@ -235,20 +255,21 @@ class AppButtonState extends State<AppButton> {
     );
   }
 
+  bool isEnabled = true;
+
   @override
   Widget build(BuildContext context) {
-    final bool isDisabled = widget.isLoading == true;
     return _buttonColor == null
         ? SizedBox.shrink()
         : InkWell(
           hoverColor: Colors.transparent,
           highlightColor: Colors.transparent,
           splashColor:
-              isDisabled ? Colors.transparent : _buttonColor!.withAlpha(50),
-          onTap: isDisabled ? null : () => widget.onPressed(),
-          onHover: isDisabled ? null : _onHover,
+              !isEnabled ? Colors.transparent : _buttonColor!.withAlpha(50),
+          onTap: !isEnabled ? null : () => widget.onPressed(),
+          onHover: !isEnabled ? null : _onHover,
           child: Opacity(
-            opacity: isDisabled ? 0.5 : 1.0,
+            opacity: !isEnabled ? 0.5 : 1.0,
             child: _buildButtonContent(),
           ),
         );

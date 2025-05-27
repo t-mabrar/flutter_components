@@ -34,7 +34,12 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          AppButton(title: "Press", onPressed: () {}, color: Colors.black),
+          AppButton(
+            title: "Press",
+            onPressed: () {},
+            color: Colors.black,
+            isEnabled: false,
+          ),
         ],
       ),
     );
