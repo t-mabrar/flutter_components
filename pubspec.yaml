@@ -17,6 +17,7 @@ dependencies:
   font_awesome_flutter:
   fluttertoast: 
   flutter_styled_toast: ^2.2.1
+  flutter_svg: ^2.1.0
 
 dev_dependencies:
   flutter_test:
