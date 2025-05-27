@@ -29,11 +29,13 @@ class AppFormTextField extends StatefulWidget {
   final Color? focusedBorderColor;
   final Color? errorBorderColor;
   final Color? focusedErrorBorderColor;
+  final double? defaultRadius;
   final double borderRadius;
   final double enabledBorderRadius;
   final double focusedBorderRadius;
   final double errorBorderRadius;
   final double focusedErrorBorderRadius;
+  final double? defaultWidth;
   final double borderWidth;
   final double enabledBorderWidth;
   final double focusedBorderWidth;
@@ -68,11 +70,13 @@ class AppFormTextField extends StatefulWidget {
     this.focusedBorderColor,
     this.errorBorderColor,
     this.focusedErrorBorderColor,
+    this.defaultRadius,
     this.borderRadius = 4.0,
     this.enabledBorderRadius = 4.0,
     this.focusedBorderRadius = 4.0,
     this.errorBorderRadius = 4.0,
     this.focusedErrorBorderRadius = 4.0,
+    this.defaultWidth,
     this.borderWidth = 1.0,
     this.enabledBorderWidth = 1.0,
     this.focusedBorderWidth = 1.0,
@@ -157,57 +161,40 @@ class _AppFormTextFieldState extends State<AppFormTextField> {
                 : widget.suffix,
         prefixIconColor: Theme.of(context).iconTheme.color,
         suffixIconColor: Theme.of(context).iconTheme.color,
-        // border: OutlineInputBorder(
-        //   borderSide: BorderSide(color: Colors.black, width: 2.0),
-        // ),
-        // enabledBorder: OutlineInputBorder(
-        //   borderSide:
-        //       widget.enabledBorder ??
-        //       BorderSide(color: Colors.black, width: 1.0),
-        // ),
-        // focusedBorder: OutlineInputBorder(
-        //   borderSide: BorderSide(color: context.primaryColor, width: 2.0),
-        // ),
-        // errorBorder: OutlineInputBorder(
-        //   borderSide: BorderSide(color: Colors.red, width: 2.0),
-        // ),
-        // focusedErrorBorder: OutlineInputBorder(
-        //   borderSide: BorderSide(color: Colors.red, width: 2.0),
-        // ),
         border: AppUtils.borderType(
           DifferentBorder.border,
           widget.borderType,
           widget.borderColor ?? context.borderColor,
-          borderRadius: widget.borderRadius,
-          borderWidth: widget.borderWidth,
+          borderRadius: widget.defaultRadius ?? widget.borderRadius,
+          borderWidth: widget.defaultWidth ?? widget.borderWidth,
         ),
         enabledBorder: AppUtils.borderType(
           DifferentBorder.enabledBorder,
           widget.borderType,
           widget.enabledBorderColor ?? context.enabledBorderColor,
-          borderRadius: widget.enabledBorderRadius,
-          borderWidth: widget.enabledBorderWidth,
+          borderRadius: widget.defaultRadius ?? widget.enabledBorderRadius,
+          borderWidth: widget.defaultWidth ?? widget.enabledBorderWidth,
         ),
         focusedBorder: AppUtils.borderType(
           DifferentBorder.focusedBorder,
           widget.borderType,
           widget.focusedBorderColor ?? context.primaryColor,
-          borderRadius: widget.focusedBorderRadius,
-          borderWidth: widget.focusedBorderWidth,
+          borderRadius: widget.defaultRadius ?? widget.focusedBorderRadius,
+          borderWidth: widget.defaultWidth ?? widget.focusedBorderWidth,
         ),
         errorBorder: AppUtils.borderType(
           DifferentBorder.errorBorder,
           widget.borderType,
           widget.errorBorderColor ?? context.errorColor,
-          borderRadius: widget.errorBorderRadius,
-          borderWidth: widget.errorBorderWidth,
+          borderRadius: widget.defaultRadius ?? widget.errorBorderRadius,
+          borderWidth: widget.defaultWidth ?? widget.errorBorderWidth,
         ),
         focusedErrorBorder: AppUtils.borderType(
           DifferentBorder.focusedErrorBorder,
           widget.borderType,
           widget.focusedErrorBorderColor ?? context.errorColor,
-          borderRadius: widget.focusedBorderRadius,
-          borderWidth: widget.focusedErrorBorderWidth,
+          borderRadius: widget.defaultRadius ?? widget.focusedBorderRadius,
+          borderWidth: widget.defaultWidth ?? widget.focusedErrorBorderWidth,
         ),
       ),
       controller: _useLocalController ? _controller : widget.controller,
