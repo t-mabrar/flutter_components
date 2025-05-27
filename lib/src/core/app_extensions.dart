@@ -1,9 +1,6 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
-
-
+// Context based extension
 extension AppContext on BuildContext {
   double get width => MediaQuery.of(this).size.width;
 
@@ -22,8 +19,30 @@ extension AppContext on BuildContext {
   Color get indicatorColor => Theme.of(this).indicatorColor;
 
   Color get secondaryColor => Theme.of(this).colorScheme.secondary;
+
+  /// Returns the default border color used in input decorations.
+  /// Falls back to [Colors.black] if no border is defined.
+  Color get borderColor =>
+      Theme.of(this).inputDecorationTheme.border == null
+          ? Colors.black
+          : Theme.of(this).inputDecorationTheme.border!.borderSide.color;
+
+  /// Returns the color of the enabled border in input decorations.
+  /// Defaults to [Colors.black] if not explicitly defined in the theme.
+  Color get enabledBorderColor =>
+      Theme.of(this).inputDecorationTheme.enabledBorder == null
+          ? Colors.black
+          : Theme.of(this).inputDecorationTheme.enabledBorder!.borderSide.color;
+
+  /// Returns the error color defined in the theme's [ColorScheme].
+  Color get errorColor => Theme.of(this).colorScheme.error;
+
+  /// Returns the default icon color from the current theme.
+  /// Falls back to [Colors.black] if not set.
+  Color get iconColor => Theme.of(this).iconTheme.color ?? Colors.black;
 }
 
+// String based extensions
 extension AppStringExtension on String {
   String get statusTitle => replaceAll("_", "").replaceAll(" ", "").toTitleCase;
 
@@ -54,6 +73,7 @@ extension AppStringExtension on String {
   }
 }
 
+// List<Widget> based extensions
 extension WidgetsList on List<Widget> {
   List<Widget> horizontalSeparator(Widget builder) {
     return map(

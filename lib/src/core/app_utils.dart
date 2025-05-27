@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_components/src/core/app_imports.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -47,6 +48,34 @@ void setPageTitle(String title, {int? colorInt}) {
 }
 
 class AppUtils {
+  /// Determines the appropriate [InputBorder] based on the [widget.borderType].
+  ///
+  /// [border] specifies which state of the border is being drawn (e.g., default, focused, error).
+  /// [borderWidth] is the width of the border line.
+  static InputBorder borderType(
+    DifferentBorder border,
+    TextFieldInputBorder borderType,
+    Color color, {
+    double borderWidth = 2.0,
+    double borderRadius = 4.0,
+  }) {
+    switch (borderType) {
+      case TextFieldInputBorder.underLine:
+        // Returns an UnderlineInputBorder if specified.
+        return UnderlineInputBorder(
+          borderRadius: BorderRadius.circular(borderRadius),
+          borderSide: BorderSide(color: color, width: borderWidth),
+        );
+
+      // Defaults to OutlineInputBorder.
+      case TextFieldInputBorder.outLine:
+        return OutlineInputBorder(
+          borderRadius: BorderRadius.circular(borderRadius),
+          borderSide: BorderSide(color: color, width: borderWidth),
+        );
+    }
+  }
+
   bool get kIsMobile =>
       MediaQueryData.fromView(
         PlatformDispatcher.instance.implicitView!,
