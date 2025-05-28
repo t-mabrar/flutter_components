@@ -10,8 +10,10 @@ class AppButton extends StatefulWidget {
   final Widget? suffix;
   final bool _isLinkButton;
   final bool _isIconButton;
-  final void Function() onPressed;
   final Icon _icon;
+  final bool _isWidgetButton;
+  final Widget _widgetButton;
+  final void Function() onPressed;
   final bool? isLoading;
   final BoxBorder? border;
   final Color? color;
@@ -28,7 +30,7 @@ class AppButton extends StatefulWidget {
   final FontWeight fontWeight;
   final bool isEnabled;
 
-  const AppButton({
+  AppButton({
     super.key,
     required this.title,
     required this.onPressed,
@@ -49,9 +51,11 @@ class AppButton extends StatefulWidget {
     this.fontWeight = FontWeight.normal,
     this.isEnabled = true,
   }) : _isLinkButton = false,
+       _isWidgetButton = false,
        _isIconButton = false,
        _hideUnderLine = false,
-       _icon = const Icon(Icons.ac_unit);
+       _icon = const Icon(Icons.ac_unit),
+       _widgetButton = Container();
 
   const AppButton._internal({
     required this.title,
@@ -62,7 +66,9 @@ class AppButton extends StatefulWidget {
     this.padding,
     this.titleStyle,
     this.fontColor,
+    required Widget widgetButton,
     required Icon icon,
+    required bool isWidgetButton,
     required bool isLinkButton,
     required bool isIconButton,
     required bool hideUnderLine,
@@ -78,8 +84,45 @@ class AppButton extends StatefulWidget {
     this.isEnabled = true,
   }) : _isLinkButton = isLinkButton,
        _isIconButton = isIconButton,
+       _isWidgetButton = isWidgetButton,
        _hideUnderLine = hideUnderLine,
+       _widgetButton = widgetButton,
        _icon = icon;
+
+  factory AppButton.widget({
+    Widget? child,
+    required void Function() onPressed,
+    Color? color,
+    Color? fontColor,
+    TextStyle? titleStyle,
+    EdgeInsets? padding,
+    Widget? prefix,
+    Widget? suffix,
+    bool? hideUnderLine,
+    double? fontSize,
+    FontWeight fontWeight = FontWeight.normal,
+    bool? isEnabled,
+  }) {
+    return AppButton._internal(
+      widgetButton: child ?? Container(),
+      isWidgetButton: true,
+      title: "",
+      prefix: prefix,
+      suffix: suffix,
+      fontColor: fontColor,
+      color: color,
+      padding: padding,
+      titleStyle: titleStyle,
+      fontWeight: fontWeight,
+      isLinkButton: false,
+      isIconButton: false,
+      fontSize: fontSize,
+      onPressed: onPressed,
+      icon: const Icon(Icons.ac_unit),
+      hideUnderLine: hideUnderLine ?? false,
+      isEnabled: isEnabled ?? true,
+    );
+  }
 
   factory AppButton.link({
     required String title,
@@ -96,6 +139,7 @@ class AppButton extends StatefulWidget {
     bool? isEnabled,
   }) {
     return AppButton._internal(
+      isWidgetButton: false,
       title: title,
       prefix: prefix,
       suffix: suffix,
@@ -108,6 +152,7 @@ class AppButton extends StatefulWidget {
       isIconButton: false,
       fontSize: fontSize,
       onPressed: onPressed,
+      widgetButton: Container(),
       icon: const Icon(Icons.ac_unit),
       hideUnderLine: hideUnderLine ?? false,
       isEnabled: isEnabled ?? true,
@@ -124,6 +169,7 @@ class AppButton extends StatefulWidget {
     double? buttonWidth,
   }) {
     return AppButton._internal(
+      isWidgetButton: false,
       title: "",
       prefix: prefix,
       suffix: suffix,
@@ -132,6 +178,7 @@ class AppButton extends StatefulWidget {
       onPressed: onPressed,
       icon: icon,
       hideUnderLine: false,
+      widgetButton: Container(),
       isEnabled: isEnabled ?? true,
       buttonFullWidth: buttonFullWidth ?? false,
       buttonWidth: buttonWidth,
@@ -244,23 +291,26 @@ class AppButtonState extends State<AppButton> {
           padding:
               widget.padding ??
               const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (widget.prefix != null) ...[
-                widget.prefix!,
-                const SizedBox(width: 10.0),
-              ],
-              widget.isExpanded
-                  ? Expanded(child: Center(child: _textWidget))
-                  : _textWidget,
-              if (widget.suffix != null) ...[
-                const SizedBox(width: 10.0),
-                widget.suffix!,
-              ],
-            ],
-          ),
+          child:
+              widget._isWidgetButton
+                  ? widget._widgetButton
+                  : Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (widget.prefix != null) ...[
+                        widget.prefix!,
+                        const SizedBox(width: 10.0),
+                      ],
+                      widget.isExpanded
+                          ? Expanded(child: Center(child: _textWidget))
+                          : _textWidget,
+                      if (widget.suffix != null) ...[
+                        const SizedBox(width: 10.0),
+                        widget.suffix!,
+                      ],
+                    ],
+                  ),
         ),
       ),
     );
