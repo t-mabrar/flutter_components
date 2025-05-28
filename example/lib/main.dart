@@ -34,11 +34,15 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          SizedBox(height: 50.0),
           AppButton(
+            // buttonFullWidth: true,
             title: "Press",
             onPressed: () {},
             color: Colors.black,
-            isEnabled: false,
+            // isExpanded: true,
+            borderRadius: 50.0,
+            prefix: Icon(Icons.lock, color: Colors.white),
           ),
         ],
       ),

@@ -20,6 +20,8 @@ class AppButton extends StatefulWidget {
   final EdgeInsets? padding;
   final double? elevation;
   final bool isExpanded;
+  final bool buttonFullWidth;
+  final double? buttonWidth;
   final double? borderRadius;
   final double? fontSize;
   final bool? _hideUnderLine;
@@ -40,6 +42,8 @@ class AppButton extends StatefulWidget {
     this.padding,
     this.elevation,
     this.isExpanded = false,
+    this.buttonFullWidth = false,
+    this.buttonWidth,
     this.borderRadius,
     this.fontSize,
     this.fontWeight = FontWeight.normal,
@@ -67,6 +71,8 @@ class AppButton extends StatefulWidget {
     this.border,
     this.elevation,
     this.isExpanded = false,
+    this.buttonWidth,
+    this.buttonFullWidth = false,
     this.borderRadius,
     this.fontSize,
     this.isEnabled = true,
@@ -114,6 +120,8 @@ class AppButton extends StatefulWidget {
     Widget? prefix,
     Widget? suffix,
     bool? isEnabled,
+    bool? buttonFullWidth,
+    double? buttonWidth,
   }) {
     return AppButton._internal(
       title: "",
@@ -125,6 +133,8 @@ class AppButton extends StatefulWidget {
       icon: icon,
       hideUnderLine: false,
       isEnabled: isEnabled ?? true,
+      buttonFullWidth: buttonFullWidth ?? false,
+      buttonWidth: buttonWidth,
     );
   }
 
@@ -235,6 +245,7 @@ class AppButtonState extends State<AppButton> {
               widget.padding ??
               const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
               if (widget.prefix != null) ...[
@@ -261,16 +272,21 @@ class AppButtonState extends State<AppButton> {
   Widget build(BuildContext context) {
     return _buttonColor == null
         ? SizedBox.shrink()
-        : InkWell(
-          hoverColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          splashColor:
-              !isEnabled ? Colors.transparent : _buttonColor!.withAlpha(50),
-          onTap: !isEnabled ? null : () => widget.onPressed(),
-          onHover: !isEnabled ? null : _onHover,
-          child: Opacity(
-            opacity: !isEnabled ? 0.5 : 1.0,
-            child: _buildButtonContent(),
+        : SizedBox(
+          width:
+              widget.buttonWidth ??
+              (widget.buttonFullWidth ? double.infinity : null),
+          child: InkWell(
+            hoverColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            splashColor:
+                !isEnabled ? Colors.transparent : _buttonColor!.withAlpha(50),
+            onTap: !isEnabled ? null : () => widget.onPressed(),
+            onHover: !isEnabled ? null : _onHover,
+            child: Opacity(
+              opacity: !isEnabled ? 0.5 : 1.0,
+              child: _buildButtonContent(),
+            ),
           ),
         );
   }
