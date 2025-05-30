@@ -5,8 +5,21 @@ import 'package:flutter_components/src/core/app_imports.dart';
 class AppFormTextField extends StatefulWidget {
   final TextEditingController? controller;
   final String? initialValue;
+  final TextStyle? style;
+  final double? fontSize;
+  final Color? fontColor;
+  final FontWeight? fontWeight;
   final String? hintText;
+  final TextStyle? hintStyle;
+  final double? hintFontSize;
+  final Color? hintFontColor;
+  final FontWeight? hintFontWeight;
   final String? labelText;
+  final TextStyle? labelStyle;
+  final double? labelFontSize;
+  final Color? labelFontColor;
+  final FontWeight? labelFontWeight;
+  //
   final bool isPassword;
   final Widget? prefix;
   final Widget? suffix;
@@ -23,6 +36,7 @@ class AppFormTextField extends StatefulWidget {
   final BorderSide? enabledBorder;
   final bool isRequired;
   final String? errorText;
+  //
   final TextFieldInputBorder borderType;
   final Color? borderColor;
   final Color? enabledBorderColor;
@@ -82,6 +96,18 @@ class AppFormTextField extends StatefulWidget {
     this.focusedBorderWidth = 1.0,
     this.errorBorderWidth = 1.0,
     this.focusedErrorBorderWidth = 1.0,
+    this.hintStyle,
+    this.hintFontSize,
+    this.hintFontColor,
+    this.hintFontWeight,
+    this.labelStyle,
+    this.labelFontSize,
+    this.labelFontColor,
+    this.labelFontWeight,
+    this.style,
+    this.fontSize,
+    this.fontColor,
+    this.fontWeight,
   });
 
   @override
@@ -91,19 +117,40 @@ class AppFormTextField extends StatefulWidget {
 class _AppFormTextFieldState extends State<AppFormTextField> {
   bool _showPassword = false;
   TextEditingController _controller = TextEditingController();
-  bool _useLocalController = false;
 
   @override
   void initState() {
-    if (widget.controller != null && widget.initialValue != null) {
-      _useLocalController = true;
+    super.initState();
+    if (widget.controller != null) {
       _controller = widget.controller!;
+    }
+    if (widget.initialValue != null) {
       if (widget.initialValue!.isNotEmpty) {
         _controller.text = widget.initialValue!;
       }
     }
     _showPassword = widget.isPassword;
-    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant AppFormTextField oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget != widget) {
+      if (widget.controller != null) {
+        _controller = widget.controller!;
+      }
+      if (widget.initialValue != null) {
+        if (widget.initialValue!.isNotEmpty) {
+          _controller.text = widget.initialValue!;
+        }
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   void hideShowPassword() {
@@ -134,19 +181,39 @@ class _AppFormTextFieldState extends State<AppFormTextField> {
                 }
                 return null;
               },
+      style:
+          widget.style ??
+          context.textTheme.bodyLarge!.copyWith(
+            fontSize: widget.fontSize,
+            fontWeight: widget.fontWeight,
+            color: widget.fontColor ?? Colors.black,
+          ),
       decoration: InputDecoration(
         // constraints:
         counterText: "",
-        hintStyle: context.textTheme.bodyLarge!.copyWith(color: Colors.grey),
         hintText:
             widget.hintText == null
                 ? null
                 : "${widget.hintText}${widget.isRequired ? '*' : ''}",
+        hintStyle:
+            widget.hintStyle ??
+            context.textTheme.bodyLarge!.copyWith(
+              fontSize: widget.hintFontSize,
+              fontWeight: widget.hintFontWeight,
+              color: widget.hintFontColor ?? Colors.grey,
+            ),
+
         labelText:
             widget.labelText == null
                 ? null
                 : "${widget.labelText}${widget.isRequired ? '*' : ''}",
-        labelStyle: context.textTheme.bodyLarge!.copyWith(color: Colors.grey),
+        labelStyle:
+            widget.labelStyle ??
+            context.textTheme.bodyLarge!.copyWith(
+              color: widget.labelFontColor ?? Colors.grey,
+              fontSize: widget.labelFontSize,
+              fontWeight: widget.labelFontWeight,
+            ),
         prefixIcon: widget.prefix,
         suffixIcon:
             widget.isPassword
@@ -197,7 +264,7 @@ class _AppFormTextFieldState extends State<AppFormTextField> {
           borderWidth: widget.defaultWidth ?? widget.focusedErrorBorderWidth,
         ),
       ),
-      controller: _useLocalController ? _controller : widget.controller,
+      controller: _controller,
     );
   }
 }
