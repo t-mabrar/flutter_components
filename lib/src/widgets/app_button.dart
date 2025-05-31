@@ -24,11 +24,13 @@ class AppButton extends StatefulWidget {
   final bool isExpanded;
   final bool buttonFullWidth;
   final double? buttonWidth;
-  final double? borderRadius;
   final double? fontSize;
   final bool? _hideUnderLine;
   final FontWeight fontWeight;
   final bool isEnabled;
+  final BoxShape? shape;
+  final double? borderRadiusValue;
+  final BorderRadiusGeometry? borderRadius;
 
   AppButton({
     super.key,
@@ -46,16 +48,26 @@ class AppButton extends StatefulWidget {
     this.isExpanded = false,
     this.buttonFullWidth = false,
     this.buttonWidth,
-    this.borderRadius,
+    this.borderRadiusValue,
     this.fontSize,
     this.fontWeight = FontWeight.normal,
     this.isEnabled = true,
+    this.shape,
+    this.borderRadius,
   }) : _isLinkButton = false,
        _isWidgetButton = false,
        _isIconButton = false,
        _hideUnderLine = false,
        _icon = const Icon(Icons.ac_unit),
-       _widgetButton = Container();
+       _widgetButton = Container(),
+       assert(
+         shape == null || borderRadius == null,
+         "Can't use both shape and borderRadius at the same time",
+       ),
+       assert(
+         shape == null || borderRadiusValue == null,
+         "Can't use both shape and borderRadiusValue at the same time",
+       );
 
   const AppButton._internal({
     required this.title,
@@ -79,15 +91,25 @@ class AppButton extends StatefulWidget {
     this.isExpanded = false,
     this.buttonWidth,
     this.buttonFullWidth = false,
-    this.borderRadius,
+    this.borderRadiusValue,
     this.fontSize,
+    this.shape,
     this.isEnabled = true,
+    this.borderRadius,
   }) : _isLinkButton = isLinkButton,
        _isIconButton = isIconButton,
        _isWidgetButton = isWidgetButton,
        _hideUnderLine = hideUnderLine,
        _widgetButton = widgetButton,
-       _icon = icon;
+       _icon = icon,
+       assert(
+         shape == null || borderRadius == null,
+         "Can't use both shape and borderRadius at the same time",
+       ),
+       assert(
+         shape == null || borderRadiusValue == null,
+         "Can't use both shape and borderRadiusValue at the same time",
+       );
 
   factory AppButton.widget({
     Widget? child,
@@ -102,6 +124,12 @@ class AppButton extends StatefulWidget {
     double? fontSize,
     FontWeight fontWeight = FontWeight.normal,
     bool? isEnabled,
+    BoxShape? shape,
+    double? borderRadiusValue,
+    double? elevation,
+    double? buttonWidth,
+    bool? buttonFullWidth,
+    BorderRadiusGeometry? borderRadius,
   }) {
     return AppButton._internal(
       widgetButton: child ?? Container(),
@@ -121,6 +149,12 @@ class AppButton extends StatefulWidget {
       icon: const Icon(Icons.ac_unit),
       hideUnderLine: hideUnderLine ?? false,
       isEnabled: isEnabled ?? true,
+      shape: shape,
+      borderRadiusValue: borderRadiusValue,
+      elevation: elevation,
+      buttonFullWidth: buttonFullWidth ?? false,
+      buttonWidth: buttonWidth,
+      borderRadius: borderRadius,
     );
   }
 
@@ -283,9 +317,14 @@ class AppButtonState extends State<AppButton> {
       elevation: widget.elevation ?? 0.0,
       child: DecoratedBox(
         decoration: BoxDecoration(
+          shape: widget.shape ?? BoxShape.rectangle,
           border: widget.border,
           color: isEnabled ? _buttonColor : Colors.grey,
-          borderRadius: BorderRadius.circular(widget.borderRadius ?? 5.0),
+          borderRadius:
+              widget.shape != null
+                  ? null
+                  : widget.borderRadius ??
+                      BorderRadius.circular(widget.borderRadiusValue ?? 5.0),
         ),
         child: Padding(
           padding:

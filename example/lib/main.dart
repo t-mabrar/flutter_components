@@ -35,12 +35,13 @@ class _MyHomePageState extends State<MyHomePage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(height: 50.0),
-          SizedBox(
-            width: 500.0,
-            child: AppFormTextField(
-              initialValue: "Hello",
-              controller: TextEditingController(text: "World1"),
-            ),
+          AppButton(
+            title: "Button",
+            onPressed: () {},
+            padding: EdgeInsets.all(30.0),
+            shape: BoxShape.circle,
+            // borderRadius: BorderRadius.circular(10.0),
+            // child: Icon(Icons.update),
           ),
         ],
       ),
