@@ -8,6 +8,8 @@ class AppButton extends StatefulWidget {
   final String title;
   final Widget? prefix;
   final Widget? suffix;
+  final double? prefixSpacing;
+  final double? suffixSpacing;
   final bool _isLinkButton;
   final bool _isIconButton;
   final Icon _icon;
@@ -339,13 +341,13 @@ class AppButtonState extends State<AppButton> {
                     children: [
                       if (widget.prefix != null) ...[
                         widget.prefix!,
-                        const SizedBox(width: 10.0),
+                        SizedBox(width: widget.prefixSpacing ?? 10.0),
                       ],
                       widget.isExpanded
                           ? Expanded(child: Center(child: _textWidget))
                           : _textWidget,
                       if (widget.suffix != null) ...[
-                        const SizedBox(width: 10.0),
+                        SizedBox(width: widget.suffixSpacing ?? 10.0),
                         widget.suffix!,
                       ],
                     ],
