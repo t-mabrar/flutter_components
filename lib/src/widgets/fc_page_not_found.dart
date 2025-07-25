@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_components/flutter_components.dart';
+import 'package:flutter_app_components/flutter_app_components.dart';
 
 class FCPageNotFoundScreen extends StatelessWidget {
   final String? title;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_components/src/core/fc_imports.dart';
+import 'package:flutter_app_components/src/core/fc_imports.dart';
 
 class FCLoading extends StatefulWidget {
   final double? size;

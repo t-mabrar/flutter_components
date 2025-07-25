@@ -1,4 +1,4 @@
-# flutter_components
+# flutter_app_components
 
 A collection of high-quality, reusable Flutter components to speed up your app development.
 
@@ -6,7 +6,7 @@ A collection of high-quality, reusable Flutter components to speed up your app d
 
 ## Overview
 
-`flutter_components` provides a set of beautiful and customizable widgets that are not available in the standard Flutter framework. Whether you need advanced UI elements or common boilerplate widgets, this package has you covered.
+`flutter_app_components` provides a set of beautiful and customizable widgets that are not available in the standard Flutter framework. Whether you need advanced UI elements or common boilerplate widgets, this package has you covered.
 
 <!-- *(Please add a more detailed description of your package's purpose here.)* -->
 
@@ -23,11 +23,11 @@ A collection of high-quality, reusable Flutter components to speed up your app d
 
 ### Installation
 
-Add `flutter_components` to your `pubspec.yaml` file. You can get the latest version from pub.dev.
+Add `flutter_app_components` to your `pubspec.yaml` file. You can get the latest version from pub.dev.
 
 ```yaml
 dependencies:
-  flutter_components: ^1.0.0 # Replace with the latest version
+  flutter_app_components: ^1.0.0 # Replace with the latest version
 ```
 
 Then, run `flutter pub get` in your terminal.
@@ -37,7 +37,7 @@ Then, run `flutter pub get` in your terminal.
 Now in your Dart code, you can import the package:
 
 ```dart
-import 'package:flutter_components/flutter_components.dart';
+import 'package:flutter_app_components/flutter_app_components.dart';
 ```
 
 ## Usage
@@ -48,7 +48,7 @@ Here is a basic example of how to use a component from this package.
 
 ```dart
 import 'package:flutter/material.dart';
-import 'package:flutter_components/flutter_components.dart'; // Assuming you have a main export file
+import 'package:flutter_app_components/flutter_app_components.dart'; // Assuming you have a main export file
 
 class MyAwesomeScreen extends StatelessWidget {
   const MyAwesomeScreen({super.key});

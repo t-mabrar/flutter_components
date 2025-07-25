@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_components/flutter_components.dart' show FCButton;
-import 'package:flutter_components/src/core/fc_imports.dart';
+import 'package:flutter_app_components/flutter_app_components.dart' show FCButton;
+import 'package:flutter_app_components/src/core/fc_imports.dart';
 
 class FCFormTextField extends StatefulWidget {
   final TextEditingController? controller;

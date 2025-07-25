@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_components/src/core/fc_imports.dart';
+import 'package:flutter_app_components/src/core/fc_imports.dart';
 
 class FCAPIClient {
   static FCAPIClient? _instance;

@@ -1,8 +1,8 @@
 // ignore_for_file: unused_element_parameter
 
 import 'package:flutter/material.dart';
-import 'package:flutter_components/src/core/fc_imports.dart';
-import 'package:flutter_components/src/widgets/fc_loading.dart';
+import 'package:flutter_app_components/src/core/fc_imports.dart';
+import 'package:flutter_app_components/src/widgets/fc_loading.dart';
 
 class FCButton extends StatefulWidget {
   final String title;
