@@ -1,44 +1,54 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_components/src/core/app_imports.dart';
+import 'package:flutter_components/src/core/fc_imports.dart';
 
-class AppLoading extends StatefulWidget {
+class FCLoading extends StatefulWidget {
   final double? size;
   final Color? color;
   final bool _showLogo;
   final bool showWaitingContent;
+  final String? title;
+  final String? message;
 
-  const AppLoading({
+  const FCLoading({
     super.key,
     this.size,
     this.color,
     this.showWaitingContent = true,
+    this.title,
+    this.message,
   }) : _showLogo = false;
 
-  const AppLoading._internal({
+  const FCLoading._internal({
     this.size,
     this.color,
     required bool showLogo,
     required this.showWaitingContent,
+    this.title,
+    this.message,
   }) : _showLogo = showLogo;
 
-  factory AppLoading.logo({
+  factory FCLoading.logo({
     final double? size,
     final Color? color,
     final bool? showWaitingContent,
+    final String? title,
+    final String? message,
   }) {
-    return AppLoading._internal(
+    return FCLoading._internal(
       size: size,
       color: color,
       showLogo: true,
       showWaitingContent: showWaitingContent ?? true,
+      title: title,
+      message: message,
     );
   }
 
   @override
-  State<AppLoading> createState() => _AppLoadingState();
+  State<FCLoading> createState() => _FCLoadingState();
 }
 
-class _AppLoadingState extends State<AppLoading>
+class _FCLoadingState extends State<FCLoading>
     with SingleTickerProviderStateMixin {
   bool _showDelayMessage = false;
   late AnimationController _pulseController;
@@ -80,14 +90,13 @@ class _AppLoadingState extends State<AppLoading>
         children: [
           if (widget._showLogo) ...[
             ScaleTransition(
-              scale: Tween(begin: 1.0, end: 1.05).animate(CurvedAnimation(
-                parent: _pulseController,
-                curve: Curves.easeInOut,
-              )),
-              child: Image.asset(
-                "",
-                scale: 4.0,
+              scale: Tween(begin: 1.0, end: 1.05).animate(
+                CurvedAnimation(
+                  parent: _pulseController,
+                  curve: Curves.easeInOut,
+                ),
               ),
+              child: Image.asset("", scale: 4.0),
             ),
             const SizedBox(height: 30),
           ],
@@ -101,23 +110,24 @@ class _AppLoadingState extends State<AppLoading>
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    "Still loading...",
+                    widget.title ?? "Still loading...",
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          color: primaryColor,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      color: primaryColor,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    "Please wait, it's taking more than expected.\nWe appreciate your patience!",
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Colors.grey[600],
-                        ),
+                    widget.message ??
+                        "Please wait, it's taking more than expected.\nWe appreciate your patience!",
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
                     textAlign: TextAlign.center,
                   ),
                 ],
               ),
-            )
+            ),
           ],
         ],
       ),

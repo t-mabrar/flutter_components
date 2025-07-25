@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_components/flutter_components.dart' show AppButton;
-import 'package:flutter_components/src/core/app_imports.dart';
+import 'package:flutter_components/flutter_components.dart' show FCButton;
+import 'package:flutter_components/src/core/fc_imports.dart';
 
-class AppFormTextField extends StatefulWidget {
+class FCFormTextField extends StatefulWidget {
   final TextEditingController? controller;
   final String? initialValue;
   final TextStyle? style;
@@ -56,7 +56,9 @@ class AppFormTextField extends StatefulWidget {
   final double errorBorderWidth;
   final double focusedErrorBorderWidth;
 
-  const AppFormTextField({
+  final String? Function(String?)? validator;
+
+  const FCFormTextField({
     super.key,
     this.controller,
     this.borderType = TextFieldInputBorder.outLine,
@@ -108,13 +110,14 @@ class AppFormTextField extends StatefulWidget {
     this.fontSize,
     this.fontColor,
     this.fontWeight,
+    this.validator,
   });
 
   @override
-  State<AppFormTextField> createState() => _AppFormTextFieldState();
+  State<FCFormTextField> createState() => _FCFormTextFieldState();
 }
 
-class _AppFormTextFieldState extends State<AppFormTextField> {
+class _FCFormTextFieldState extends State<FCFormTextField> {
   bool _showPassword = false;
   TextEditingController _controller = TextEditingController();
 
@@ -133,7 +136,7 @@ class _AppFormTextFieldState extends State<AppFormTextField> {
   }
 
   @override
-  void didUpdateWidget(covariant AppFormTextField oldWidget) {
+  void didUpdateWidget(covariant FCFormTextField oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget != widget) {
       if (widget.controller != null) {
@@ -173,14 +176,15 @@ class _AppFormTextFieldState extends State<AppFormTextField> {
       obscureText: _showPassword,
       onFieldSubmitted: widget.onSubmit,
       validator:
-          !widget.isRequired
+          widget.validator ??
+          (!widget.isRequired
               ? null
               : (value) {
                 if (value == null || value.isEmpty) {
                   return widget.errorText ?? 'This field is required';
                 }
                 return null;
-              },
+              }),
       style:
           widget.style ??
           context.textTheme.bodyLarge!.copyWith(
@@ -217,7 +221,7 @@ class _AppFormTextFieldState extends State<AppFormTextField> {
         prefixIcon: widget.prefix,
         suffixIcon:
             widget.isPassword
-                ? AppButton.icon(
+                ? FCButton.icon(
                   onPressed: () {
                     hideShowPassword();
                   },
@@ -228,35 +232,35 @@ class _AppFormTextFieldState extends State<AppFormTextField> {
                 : widget.suffix,
         prefixIconColor: Theme.of(context).iconTheme.color,
         suffixIconColor: Theme.of(context).iconTheme.color,
-        border: AppUtils.borderType(
+        border: FCUtils.borderType(
           DifferentBorder.border,
           widget.borderType,
           widget.borderColor ?? context.borderColor,
           borderRadius: widget.defaultRadius ?? widget.borderRadius,
           borderWidth: widget.defaultWidth ?? widget.borderWidth,
         ),
-        enabledBorder: AppUtils.borderType(
+        enabledBorder: FCUtils.borderType(
           DifferentBorder.enabledBorder,
           widget.borderType,
           widget.enabledBorderColor ?? context.enabledBorderColor,
           borderRadius: widget.defaultRadius ?? widget.enabledBorderRadius,
           borderWidth: widget.defaultWidth ?? widget.enabledBorderWidth,
         ),
-        focusedBorder: AppUtils.borderType(
+        focusedBorder: FCUtils.borderType(
           DifferentBorder.focusedBorder,
           widget.borderType,
           widget.focusedBorderColor ?? context.primaryColor,
           borderRadius: widget.defaultRadius ?? widget.focusedBorderRadius,
           borderWidth: widget.defaultWidth ?? widget.focusedBorderWidth,
         ),
-        errorBorder: AppUtils.borderType(
+        errorBorder: FCUtils.borderType(
           DifferentBorder.errorBorder,
           widget.borderType,
           widget.errorBorderColor ?? context.errorColor,
           borderRadius: widget.defaultRadius ?? widget.errorBorderRadius,
           borderWidth: widget.defaultWidth ?? widget.errorBorderWidth,
         ),
-        focusedErrorBorder: AppUtils.borderType(
+        focusedErrorBorder: FCUtils.borderType(
           DifferentBorder.focusedErrorBorder,
           widget.borderType,
           widget.focusedErrorBorderColor ?? context.errorColor,

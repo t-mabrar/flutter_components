@@ -1,10 +1,10 @@
 // ignore_for_file: unused_element_parameter
 
 import 'package:flutter/material.dart';
-import 'package:flutter_components/src/core/app_imports.dart';
-import 'package:flutter_components/src/widgets/app_loading.dart';
+import 'package:flutter_components/src/core/fc_imports.dart';
+import 'package:flutter_components/src/widgets/fc_loading.dart';
 
-class AppButton extends StatefulWidget {
+class FCButton extends StatefulWidget {
   final String title;
   final Widget? prefix;
   final Widget? suffix;
@@ -34,7 +34,7 @@ class AppButton extends StatefulWidget {
   final double? borderRadiusValue;
   final BorderRadiusGeometry? borderRadius;
 
-  AppButton({
+  FCButton({
     super.key,
     required this.title,
     required this.onPressed,
@@ -73,7 +73,7 @@ class AppButton extends StatefulWidget {
          "Can't use both shape and borderRadiusValue at the same time",
        );
 
-  const AppButton._internal({
+  const FCButton._internal({
     required this.title,
     required this.onPressed,
     this.prefix,
@@ -117,7 +117,7 @@ class AppButton extends StatefulWidget {
          "Can't use both shape and borderRadiusValue at the same time",
        );
 
-  factory AppButton.widget({
+  factory FCButton.widget({
     Widget? child,
     required void Function() onPressed,
     Color? color,
@@ -139,7 +139,7 @@ class AppButton extends StatefulWidget {
     bool? buttonFullWidth,
     BorderRadiusGeometry? borderRadius,
   }) {
-    return AppButton._internal(
+    return FCButton._internal(
       prefixSpacing: prefixSpacing,
       suffixSpacing: suffixSpacing,
       widgetButton: child ?? Container(),
@@ -168,7 +168,7 @@ class AppButton extends StatefulWidget {
     );
   }
 
-  factory AppButton.link({
+  factory FCButton.link({
     required String title,
     required void Function() onPressed,
     Color? color,
@@ -182,7 +182,7 @@ class AppButton extends StatefulWidget {
     FontWeight fontWeight = FontWeight.normal,
     bool? isEnabled,
   }) {
-    return AppButton._internal(
+    return FCButton._internal(
       isWidgetButton: false,
       title: title,
       prefix: prefix,
@@ -203,7 +203,7 @@ class AppButton extends StatefulWidget {
     );
   }
 
-  factory AppButton.icon({
+  factory FCButton.icon({
     required Icon icon,
     required void Function() onPressed,
     Widget? prefix,
@@ -212,7 +212,7 @@ class AppButton extends StatefulWidget {
     bool? buttonFullWidth,
     double? buttonWidth,
   }) {
-    return AppButton._internal(
+    return FCButton._internal(
       isWidgetButton: false,
       title: "",
       prefix: prefix,
@@ -230,10 +230,10 @@ class AppButton extends StatefulWidget {
   }
 
   @override
-  State<AppButton> createState() => AppButtonState();
+  State<FCButton> createState() => FCButtonState();
 }
 
-class AppButtonState extends State<AppButton> {
+class FCButtonState extends State<FCButton> {
   Color? _buttonColor;
   bool _isHovered = false;
 
@@ -249,7 +249,7 @@ class AppButtonState extends State<AppButton> {
   }
 
   @override
-  void didUpdateWidget(covariant AppButton oldWidget) {
+  void didUpdateWidget(covariant FCButton oldWidget) {
     if (oldWidget.color != widget.color) {
       _buttonColor = widget.color ?? context.primaryColor;
     }
@@ -297,7 +297,7 @@ class AppButtonState extends State<AppButton> {
         ),
       );
     } else if (widget.isLoading ?? false) {
-      return const AppLoading();
+      return const FCLoading();
     } else {
       return _buildDefaultButton();
     }

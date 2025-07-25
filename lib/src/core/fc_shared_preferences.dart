@@ -1,6 +1,6 @@
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
-class AppSharedPreferences {
+class FCSharedPreferences {
   static Future<void> setIntValue({
     required String key,
     required int value,

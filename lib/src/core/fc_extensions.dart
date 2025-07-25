@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 // Context based extension
-extension AppContext on BuildContext {
+extension FCContext on BuildContext {
   double get width => MediaQuery.of(this).size.width;
 
   double get height => MediaQuery.of(this).size.height;

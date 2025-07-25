@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_components/flutter_components.dart';
 
-class AppBottomSheet extends StatefulWidget {
+class FCBottomSheet extends StatefulWidget {
   final String? title;
   final Widget body;
   final String? submitTitle;
@@ -10,7 +10,7 @@ class AppBottomSheet extends StatefulWidget {
   final bool showActionButton;
   final bool actionLoading;
 
-  const AppBottomSheet({
+  const FCBottomSheet({
     super.key,
     this.title,
     required this.body,
@@ -22,10 +22,10 @@ class AppBottomSheet extends StatefulWidget {
   });
 
   @override
-  State<AppBottomSheet> createState() => _AppBottomSheetState();
+  State<FCBottomSheet> createState() => _FCBottomSheetState();
 }
 
-class _AppBottomSheetState extends State<AppBottomSheet> {
+class _FCBottomSheetState extends State<FCBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -58,10 +58,10 @@ class _AppBottomSheetState extends State<AppBottomSheet> {
 
                 if (widget.showActionButton) ...[
                   widget.actionLoading
-                      ? AppLoading()
+                      ? FCLoading()
                       : Row(
                         children: [
-                          AppButton(
+                          FCButton(
                             padding: EdgeInsets.symmetric(
                               horizontal: 10.0,
                               vertical: 5.0,
@@ -74,7 +74,7 @@ class _AppBottomSheetState extends State<AppBottomSheet> {
                             },
                           ),
                           SizedBox(width: 10.0),
-                          AppButton.icon(
+                          FCButton.icon(
                             onPressed: () {
                               if (widget.onCancel != null) {
                                 widget.onCancel!();

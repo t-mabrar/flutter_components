@@ -1,6 +1,6 @@
 name: flutter_components
-description: "A new Flutter package project."
-version: 0.0.1
+description: "A set of packages for building easy and quick application in flutter"
+version: 1.0.0
 homepage:
 
 environment:
@@ -10,20 +10,20 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  group_dropdown_button: ^1.0.3
+  group_dropdown_button: ^1.0.4
   logger: ^2.5.0
   streaming_shared_preferences: ^2.0.0
   intl: ^0.20.2
   font_awesome_flutter:
   fluttertoast: 
   flutter_styled_toast: ^2.2.1
-  provider: ^6.1.5
   dio: ^5.8.0+1
   get_it: ^8.0.3
   injectable: ^2.5.0
   sizer: ^3.0.5
   responsive_framework: ^1.5.1
   flutter_svg: ^2.1.0
+  equatable: ^2.0.7
 
 dev_dependencies:
   flutter_test:

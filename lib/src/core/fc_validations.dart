@@ -1,4 +1,4 @@
-class Validations {
+class FCValidations {
   static String? validate({AppValidations? type, String? value}) {
     switch (type) {
       case AppValidations.username:
