@@ -33,11 +33,16 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          FCFormTextField(),
-          FCButton(title: "Submit", onPressed: () {}),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          spacing: 20.0,
+          children: [
+            FCFormTextField.underLine(),
+            FCDropDown(items: [], borderType: FieldBorder.underLine),
+            FCButton(title: "Submit", onPressed: () {}),
+          ],
+        ),
       ),
     );
   }

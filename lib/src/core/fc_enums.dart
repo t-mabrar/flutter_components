@@ -1,4 +1,4 @@
-enum TextFieldInputBorder { underLine, outLine }
+enum FieldBorder { underLine, outLine }
 
 enum DifferentBorder {
   border,
