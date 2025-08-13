@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_components/flutter_app_components.dart';
 
 void main() {
+  FCAPIClient(
+    baseUrl: "",
+    requestParams: {
+      OnRequestParams.header: {'auth_token': ''},
+    },
+  );
   runApp(const MyApp());
 }
 
@@ -40,7 +46,12 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             FCFormTextField.underLine(),
             FCDropDown(items: [], borderType: FieldBorder.underLine),
-            FCButton(title: "Submit", onPressed: () {}),
+            FCButton(
+              title: "Submit",
+              onPressed: () {
+                FCAPIClient().get("");
+              },
+            ),
           ],
         ),
       ),

@@ -4,11 +4,14 @@ import 'package:dio/io.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_app_components/flutter_app_components.dart';
 
+enum OnRequestParams { header }
+
 @injectable
 class FCAPIClient {
   static FCAPIClient? _instance;
   final Dio _dio = Dio();
   late final String _baseUrl;
+  Map<OnRequestParams, Map<String, dynamic>>? _requestParams;
   void Function()? onErrorNavigation;
   void Function()? onError;
   void Function()? onRequest;
@@ -16,6 +19,7 @@ class FCAPIClient {
 
   factory FCAPIClient({
     String? baseUrl,
+    Map<OnRequestParams, Map<String, dynamic>>? requestParams,
     void Function()? onErrorNavigation,
     void Function()? onError,
     void Function()? onRequest,
@@ -29,6 +33,7 @@ class FCAPIClient {
       }
       _instance = FCAPIClient._internal(
         baseUrl,
+        requestParams,
         onErrorNavigation,
         onError,
         onRequest,
@@ -40,12 +45,14 @@ class FCAPIClient {
 
   FCAPIClient._internal(
     String baseUrl,
+    Map<OnRequestParams, Map<String, dynamic>>? requestParams,
     this.onErrorNavigation,
     this.onError,
     this.onRequest,
     this.onResponse,
   ) {
     _baseUrl = baseUrl;
+    _requestParams = requestParams;
     _initialize();
   }
 
@@ -67,6 +74,12 @@ class FCAPIClient {
           options.headers['Accept'] = "application/json";
           options.baseUrl = _baseUrl;
           options.followRedirects = true;
+          // Checking any headers to pass
+          if (_requestParams != null) {
+            if (_requestParams![OnRequestParams.header] != null) {
+              options.headers.addAll(_requestParams![OnRequestParams.header]!);
+            }
+          }
           logger.d(
             "==> API : ${options.baseUrl}${options.path}\n==> Header: ${options.headers}\n==> Body: ${options.data}\n==> Method: ${options.method}",
           );
