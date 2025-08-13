@@ -36,6 +36,8 @@ class FCFormTextField extends StatefulWidget {
   final FontWeight? labelFontWeight; // Font weight of the label text.
 
   // --- Behavior and Input Properties ---
+  final bool? autoCorrect; // Whether to enable auto-correction.
+  final bool? autoFocus; // Whether to automatically focus the text field.
   final bool
   isPassword; // If true, the text field obscures text and shows a password toggle.
   final Widget? prefix; // Widget to display before the input area.
@@ -152,6 +154,8 @@ class FCFormTextField extends StatefulWidget {
     this.fontWeight,
     this.validator,
     required FieldBorder borderType, // Defines the border style.
+    this.autoCorrect,
+    this.autoFocus,
   }) : _borderType = borderType;
 
   /// Factory constructor to create an `FCFormTextField` with an underline border.
@@ -202,8 +206,12 @@ class FCFormTextField extends StatefulWidget {
     final double errorBorderWidth = 1.0,
     final double focusedErrorBorderWidth = 1.0,
     final String? Function(String?)? validator,
+    final bool? autoCorrect,
+    final bool? autoFocus,
   }) {
     return FCFormTextField._internal(
+      autoCorrect: autoCorrect,
+      autoFocus: autoFocus,
       borderType: FieldBorder.underLine, // Specifies underline border.
       controller: controller,
       initialValue: initialValue,
@@ -311,8 +319,12 @@ class FCFormTextField extends StatefulWidget {
     final double errorBorderWidth = 1.0,
     final double focusedErrorBorderWidth = 1.0,
     final String? Function(String?)? validator,
+    final bool? autoCorrect,
+    final bool? autoFocus,
   }) {
     return FCFormTextField._internal(
+      autoCorrect: autoCorrect,
+      autoFocus: autoFocus,
       borderType: FieldBorder.outLine, // Specifies outline border.
       controller: controller,
       initialValue: initialValue,
@@ -421,6 +433,8 @@ class FCFormTextField extends StatefulWidget {
     this.fontColor,
     this.fontWeight,
     this.validator,
+    this.autoCorrect,
+    this.autoFocus,
   }) : _borderType = FieldBorder.outLine; // Default to outline border.
 
   @override
@@ -492,6 +506,8 @@ class _FCFormTextFieldState extends State<FCFormTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      autocorrect: widget.autoCorrect ?? false,
+      autofocus: widget.autoFocus ?? false,
       readOnly: widget.readOnly ?? false, // Whether the field is read-only.
       maxLength: widget.maxLength, // Maximum characters allowed.
       enabled: widget.enabled ?? true, // Whether the field is enabled.
